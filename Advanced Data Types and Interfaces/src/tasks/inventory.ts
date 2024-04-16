@@ -18,6 +18,6 @@ interface HeroData{
 const heroObj: heroObjInterface = {}
 
 // Logic
-for (let row of input){
+for (let row of data){
     console.log(row)
 }
