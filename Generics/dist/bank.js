@@ -1,37 +1,38 @@
-abstract class CreateAccount<BankName, BankID> {
-    protected constructor(protected bankName: BankName, protected bankID: BankID) {}
-
-    abstract showDetails(): string;
+"use strict";
+class CreateAccount {
+    bankName;
+    bankID;
+    constructor(bankName, bankID) {
+        this.bankName = bankName;
+        this.bankID = bankID;
+    }
 }
-
-class PersonalAccount<BankName, BankID> extends CreateAccount<BankName, BankID> {
-    readonly ownerName: string;
-    money: number = 0;
-    recentTransactions: { [key: string]: number } = {};
-
-    constructor(bankName: BankName, bankID: BankID, ownerName: string) {
+class PersonalAccount extends CreateAccount {
+    ownerName;
+    money = 0;
+    recentTransactions = {};
+    constructor(bankName, bankID, ownerName) {
         super(bankName, bankID);
         this.ownerName = ownerName;
     }
-
-    deposit(amount: number): void {
+    deposit(amount) {
         this.money += amount;
     }
-
-    expense(amount: number, expenseType: string): void {
+    expense(amount, expenseType) {
         if (this.money >= amount) {
             if (this.recentTransactions.hasOwnProperty(expenseType)) {
                 this.recentTransactions[expenseType] += amount;
-            } else {
+            }
+            else {
                 this.recentTransactions[expenseType] = amount;
             }
             this.money -= amount;
-        } else {
+        }
+        else {
             throw new Error(`You can't make ${expenseType} transaction`);
         }
     }
-
-    showDetails(): string {
+    showDetails() {
         const totalMoneySpentOnExpenses = Object.values(this.recentTransactions).reduce((acc, val) => acc + val, 0);
         return `Bank name: ${this.bankName}
 Bank ID: ${this.bankID}
@@ -40,9 +41,7 @@ Money: ${this.money}
 Money spent: ${totalMoneySpentOnExpenses}`;
     }
 }
-
 let account = new PersonalAccount('DSK', 101240, 'Ivan Ivanov');
-
 account.deposit(1000);
 account.deposit(1000);
 account.expense(700, 'Buy new phone');
