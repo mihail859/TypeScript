@@ -16,8 +16,25 @@ function findLowestPrices(data) {
         if (!objFruits.hasOwnProperty(product)) {
             objFruits[product] = { [town]: price };
         }
-        //objFruits[product][town] = price;
+        else {
+            objFruits[product][town] = price;
+        }
     }
-    console.log(objFruits);
+    // console.log(objFruits);
+    let lowestPrices = {};
+    for (let prod in objFruits) {
+        let lowest = Infinity;
+        let townName = '';
+        for (let town in objFruits[prod]) {
+            if (objFruits[prod][town] < lowest) {
+                lowest = objFruits[prod][town];
+                townName = town;
+            }
+        }
+        lowestPrices[prod] = { town: townName, price: lowest };
+    }
+    for (let product in lowestPrices) {
+        console.log(`${product} -> ${lowestPrices[product].price} (${lowestPrices[product].town})`);
+    }
 }
 findLowestPrices(inputData);

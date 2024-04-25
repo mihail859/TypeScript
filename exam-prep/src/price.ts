@@ -15,6 +15,15 @@ interface ProductObject {
     [key: string]: TownPriceObj
 }
 
+interface lowestPriceTown {
+    town: string;
+    price: number;
+}
+
+interface lowestPriceObj {
+    [key: string]: lowestPriceTown
+}
+
 
 function findLowestPrices(data: string[]){
     const objFruits: ProductObject = {};
@@ -33,7 +42,25 @@ function findLowestPrices(data: string[]){
         }
 
     }
-    console.log(objFruits);
+    // console.log(objFruits);
+
+    let lowestPrices: lowestPriceObj = {};
+    for (let prod in objFruits){
+        let lowest = Infinity;
+        let townName = '';
+        for (let town in objFruits[prod]){
+            if (objFruits[prod][town] < lowest){
+                lowest = objFruits[prod][town];
+                townName = town
+            }
+        }
+        lowestPrices[prod] = { town: townName, price: lowest}
+    }
+    
+    for (let product in lowestPrices) {
+        console.log(`${product} -> ${lowestPrices[product].price} (${lowestPrices[product].town})`)
+        
+    }
     
 }
 
